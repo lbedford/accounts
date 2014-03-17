@@ -1,0 +1,31 @@
+{% extends 'accounts/base.html' %}
+
+{% block body %}
+
+Here's the information we are storing about you.
+
+<table>
+  <tr>
+    <td>First Name</td>
+    <td>{{ user.first_name }}</td>
+  </tr>
+  <tr>
+    <td>Last Name</td>
+    <td>{{ user.last_name }}</td>
+  </tr>
+  <tr>
+    <td>User Name</td>
+    <td>{{ user.username }}</td>
+  </tr>
+  <tr>
+    <td>Email Address</td>
+    <td>{{ user.email }}</td>
+  </tr>
+  <tr>
+    <td>User Profile Image</td>
+    <td><img src="{{ user.lbwuser.profile_image.url }}"/></td>
+  </tr>
+</table>
+
+
+{% endblock %}
