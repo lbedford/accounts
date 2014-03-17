@@ -22,3 +22,7 @@ class UserUpdateForm(UserChangeForm):
 class LbwUserForm(forms.ModelForm):
   class Meta:
     model = LbwUser
+
+class LoginForm(forms.Form):
+  username = forms.CharField()
+  password = forms.CharField(widget=forms.PasswordInput())
