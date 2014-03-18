@@ -1,0 +1,12 @@
+{% extends 'accounts/base.html' %}
+
+{% block body %}
+Possible exits include:
+<ul>
+<li><a href="{% url 'login' %}">Login</a></li>
+<li><a href="{% url 'django.contrib.auth.views.password_reset' %}">Reset Password</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'profile' %}">Profile/Update</a></li>
+{% endif %}
+</ul>
+{% endblock %}

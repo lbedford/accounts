@@ -4,28 +4,47 @@
 
 Here's the information we are storing about you.
 
+{% if form.errors %}
+<p>Please check the mistakes you made. Please try again.</p>
+<p>{{ form.errors }}</p>
+{% endif %}
+
+<form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+{% csrf_token %}
 <table>
+  <tr>
+    <th></th>
+    <th>Current Value</th>
+    <th>New Value</th>
+  </th>
   <tr>
     <td>First Name</td>
     <td>{{ user.first_name }}</td>
+    <td>{{ form.first_name }}</td>
   </tr>
   <tr>
     <td>Last Name</td>
     <td>{{ user.last_name }}</td>
+    <td>{{ form.last_name }}</td>
   </tr>
   <tr>
     <td>User Name</td>
     <td>{{ user.username }}</td>
+    <td>{{ form.username }}</td>
   </tr>
   <tr>
     <td>Email Address</td>
     <td>{{ user.email }}</td>
+    <td>{{ form.email }}</td>
   </tr>
   <tr>
     <td>User Profile Image</td>
     <td><img src="{{ user.lbwuser.profile_image.url }}"/></td>
+    <td>{{ form.profile_image }}</td>
   </tr>
+<tr>
+<td colspan=2><input type="submit" value="change" /></td>
 </table>
-
+</form>
 
 {% endblock %}

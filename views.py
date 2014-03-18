@@ -1,12 +1,16 @@
 from accounts.forms import UserCreateForm
 from accounts.forms import UserUpdateForm
 from accounts.forms import LoginForm
+from accounts.models import LbwUser
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import redirect
+
+def index(request):
+  return render(request, 'accounts/index.html')
 
 def register(request):
   if request.method == 'POST':
@@ -19,15 +23,26 @@ def register(request):
   return render(request, 'accounts/create_user.html',
       {'form': form})
 
-def update_user(request):
-  form = UserUpdateForm(instance=request.user)
-  return render(request, 'accounts/update_user.html',
-      {'form': form})
-
 def profile(request):
   if not request.user.is_authenticated():
-    return redirect(reverse('django.contrib.auth.views.login'))
-  return render(request, 'accounts/profile.html')
+    return redirect('django.contrib.auth.views.login')
+  if request.method == 'POST':
+    form = UserUpdateForm(request.POST or None, instance=request.user)
+    if form.is_valid():
+      form.save()
+      if 'profile_image' in request.FILES:
+        try:
+          lbwuser = LbwUser.objects.get(user_id__exact=request.user.id)
+          lbwuser.profile_image = request.FILES['profile_image']
+          lbwuser.save()
+        except LbwUser.DoesNotExist:
+          lbwuser.create(user=user, profile_image=request.FILES['profile_image'])
+          lbwuser.save()
+      return redirect('registration:index')
+  else:
+    form = UserUpdateForm(instance=request.user)
+  return render(request, 'accounts/profile.html', 
+      {'form': form})
 
 def login(request):
   if request.method == 'POST':

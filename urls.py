@@ -10,7 +10,7 @@ from django.contrib.auth.views import logout
 from accounts import views
 
 urlpatterns = patterns('',
-#    url(r'^$', views.index),
+    url(r'^$', views.index),
     url(r'^changepassword/$', 'django.contrib.auth.views.password_change',
         kwargs={'template_name': 'accounts/password_change_form.html'}),
     url(r'^change_password_done/$',
@@ -32,6 +32,5 @@ urlpatterns = patterns('',
         'django.contrib.auth.views.password_reset_complete',
         kwargs={'template_name': 'accounts/password_reset_complete.html'}),
     url(r'^register/$', views.register, name='register'),
-    url(r'^updateuser/$', views.update_user, name='update_user'),
     url(r'^profile/$', views.profile, name='profile'),
 )
