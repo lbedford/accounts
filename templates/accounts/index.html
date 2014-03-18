@@ -8,5 +8,8 @@ Possible exits include:
 {% if user.is_authenticated %}
 <li><a href="{% url 'profile' %}">Profile/Update</a></li>
 {% endif %}
+{% if user.is_superuser %}
+<li><a href="{% url 'activate_users' %}">Activate Users</a></li>
+{% endif %}
 </ul>
 {% endblock %}

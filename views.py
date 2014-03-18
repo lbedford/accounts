@@ -73,3 +73,13 @@ def login(request):
   else:
     form = LoginForm()
   return render(request, 'accounts/login.html', {'login_form': form})
+
+def activate_users(request):
+  if request.user.is_superuser:
+    try:
+      users = User.objects.get(is_active__exact=False)
+    except User.DoesNotExist:
+      users = []
+    return render(request, 'accounts/activate_users.html', {'users': users})
+  else:
+    redirect('index')

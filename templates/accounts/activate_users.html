@@ -1,0 +1,10 @@
+{% extends 'accounts/base.html' %}
+{% block body %}
+<ul>
+{% for user in users %}
+<li>
+<a href='{% url 'activate_user' user.id %}'>{{ user.first_name }} {{ user.last_name }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

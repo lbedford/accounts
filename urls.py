@@ -33,4 +33,5 @@ urlpatterns = patterns('',
         kwargs={'template_name': 'accounts/password_reset_complete.html'}),
     url(r'^register/$', views.register, name='register'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^activate_users/$', views.activate_users, name='activate_users'),
 )
