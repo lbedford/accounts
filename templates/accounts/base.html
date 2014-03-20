@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <meta http-equiv="Content-Style-Type" content="text/css"/>
 
-    <title>{% if lbw %}LBW {{ lbw.description }} in {{ lbw.location }}{% else %}LBW Registration System{% endif %}</title>
+    <title>LBW Accounts System</title>
 
     <script src="{% static 'registration/jquery-2.0.3.min.js' %}"></script>
     <script src="{% static 'registration/lbw.js' %}"></script>
@@ -28,19 +28,8 @@
         </a>
     </div>
     <div class='header'>
-        {% if lbw %}
-        <a href="{{ lbw.lbw_url }}">
-            <span style='font-size: 36px;'>LBW - {{ lbw.description }}</span>
-        </a>
-
-        <h1>
-            {{ lbw.start_date }} - {{ lbw.end_date }}<br/>
-            in {{ lbw.location }}<br/>
-        </h1>
-        <br/>
-        {% else %}
-          <h1>Welcome to the LBW registration system</h1>
-        {% endif %}
+        <h1>Welcome to the LBW account management system system</h1>
+        {% include 'accounts/navbar.html' %}
     </div>
     <div class="body">
         {% block body %}

@@ -8,6 +8,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
 
@@ -20,7 +21,9 @@ def register(request):
   if request.method == 'POST':
     form = UserCreateForm(request.POST)
     if form.is_valid():
-      form.save()
+      user = form.save()
+      user.is_active = False
+      user.save()
       return redirect('registration:index')
   else:
     form = UserCreateForm()
@@ -30,7 +33,7 @@ def register(request):
 def profile(request):
   """Show user profile, allow them to update it."""
   if not request.user.is_authenticated():
-    return redirect('django.contrib.auth.views.login')
+    return HttpResponseRedirect(reverse('index'))
   if request.method == 'POST':
     form = UserUpdateForm(request.POST or None, instance=request.user)
     if form.is_valid():
@@ -57,6 +60,8 @@ def profile(request):
 
 def login(request):
   """Login. Looks up by username or email address."""
+  if not request.user.is_anonymous:
+    return HttpResponseRedirect(reverse('index'))
   if request.method == 'POST':
     form = LoginForm(request.POST)
     if form.is_valid():
@@ -77,7 +82,7 @@ def login(request):
           if 'next' in request.POST:
             return HttpResponseRedirect(request.POST['next'])
           else:
-            return HttpResponseRedirect(reverse('registration:index'))
+            return HttpResponseRedirect(reverse('index'))
         else:
           form.errors['username'] = 'This user is not active'
       else:
@@ -88,12 +93,19 @@ def login(request):
   return render(request, 'accounts/login.html', {'login_form': form})
 
 def activate_users(request):
-  """Activate new users."""
+  """Print a list of users who need to be activated."""
   if request.user.is_superuser:
-    try:
-      users = User.objects.get(is_active__exact=False)
-    except User.DoesNotExist:
-      users = []
+    users = User.objects.filter(is_active__exact=False)
     return render(request, 'accounts/activate_users.html', {'users': users})
   else:
-    redirect('index')
+    return HttpResponseRedirect(reverse('index'))
+
+def activate_user(request, user_id):
+  """Activate a user."""
+  if request.user.is_superuser:
+    user = get_object_or_404(User, pk=user_id)
+    user.is_active = True
+    user.save()
+    return HttpResponseRedirect(reverse('activate_users'))
+  else:
+    return HttpResponseRedirect(reverse('index'))
