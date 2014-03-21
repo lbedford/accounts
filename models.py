@@ -7,7 +7,7 @@ class LbwUser(models.Model):
   user = models.OneToOneField(User, primary_key=True)
   profile_image = models.ImageField(
       upload_to='img/',
-      default='pic_folder/None/no-img.jpg')
+      default='img/unknown.jpg')
 
   def __unicode__(self):
     return self.user.__unicode__() # pylint: disable=E1101
