@@ -60,7 +60,7 @@ def profile(request):
 
 def login(request):
   """Login. Looks up by username or email address."""
-  if not request.user.is_anonymous:
+  if request.user.is_authenticated():
     return HttpResponseRedirect(reverse('index'))
   if request.method == 'POST':
     form = LoginForm(request.POST)
