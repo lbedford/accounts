@@ -6,6 +6,7 @@ from accounts.forms import LoginForm
 from accounts.models import LbwUser
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.core.mail import mail_admins
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -24,7 +25,15 @@ def register(request):
       user = form.save()
       user.is_active = False
       user.save()
-      return redirect('registration:index')
+      message = """"A new user:
+%s
+has signed up. Please check
+%s
+and activate them as necessary.
+"""
+      mail_admins("New User registered",
+                  message % (user, reverse('activate_users')))
+      return redirect('index')
   else:
     form = UserCreateForm()
   return render(request, 'accounts/create_user.html',
@@ -47,7 +56,7 @@ def profile(request):
           lbwuser = LbwUser(user=request.user,
                             profile_image=request.FILES['profile_image'])
           lbwuser.save()
-      return redirect('registration:index')
+      return redirect('index')
   else:
     try:
       lbwuser = LbwUser.objects.get(user_id__exact=request.user.id)
