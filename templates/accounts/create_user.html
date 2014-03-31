@@ -1,4 +1,4 @@
-{% extends 'registration/base.html' %}
+{% extends 'accounts/base.html' %}
 
 {% block body %}
 
@@ -20,5 +20,7 @@
 </table>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+
+NB: Your account will not be functional until a superuser activates it.
 
 {% endblock %}

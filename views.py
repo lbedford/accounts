@@ -6,6 +6,7 @@ from accounts.forms import LoginForm
 from accounts.models import LbwUser
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.core.mail import mail_admins
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -24,7 +25,15 @@ def register(request):
       user = form.save()
       user.is_active = False
       user.save()
-      return redirect('registration:index')
+      message = """"A new user:
+%s
+has signed up. Please check
+%s
+and activate them as necessary.
+"""
+      mail_admins("New User registered",
+                  message % (user, reverse('activate_users')))
+      return redirect('index')
   else:
     form = UserCreateForm()
   return render(request, 'accounts/create_user.html',
@@ -47,7 +56,7 @@ def profile(request):
           lbwuser = LbwUser(user=request.user,
                             profile_image=request.FILES['profile_image'])
           lbwuser.save()
-      return redirect('registration:index')
+      return redirect('index')
   else:
     try:
       lbwuser = LbwUser.objects.get(user_id__exact=request.user.id)
@@ -68,7 +77,6 @@ def login(request):
       user = auth.authenticate(username=request.POST['username'],
                                password=request.POST['password'])
       if not user:
-        print 'Failed to login as username, trying an email'
         try:
           email_user = User.objects.get(
               email__exact=request.POST['username'])
@@ -77,14 +85,14 @@ def login(request):
         except User.DoesNotExist:
           user = None
       if user:
-        if user.is_active():
+        if user.is_active:
           auth.login(request, user)
           if 'next' in request.POST:
             return HttpResponseRedirect(request.POST['next'])
           else:
             return HttpResponseRedirect(reverse('index'))
         else:
-          form.errors['username'] = 'This user is not active yet'
+          form.errors['username'] = 'This user is not active yet, please try later.'
       else:
         form.errors['username'] = (
             'username or email address not found and/or password wrong')
