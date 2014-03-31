@@ -14,5 +14,6 @@ Possible exits include:
 {% if user.is_superuser %}
 <li><a href="{% url 'activate_users' %}">Activate Users</a></li>
 {% endif %}
+<li> <a href="{% url 'registration:index' %}">List of known LBWs</a></li>
 </ul>
 {% endblock %}
