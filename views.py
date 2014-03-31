@@ -77,14 +77,14 @@ def login(request):
         except User.DoesNotExist:
           user = None
       if user:
-        if user.is_active:
+        if user.is_active():
           auth.login(request, user)
           if 'next' in request.POST:
             return HttpResponseRedirect(request.POST['next'])
           else:
             return HttpResponseRedirect(reverse('index'))
         else:
-          form.errors['username'] = 'This user is not active'
+          form.errors['username'] = 'This user is not active yet'
       else:
         form.errors['username'] = (
             'username or email address not found and/or password wrong')
