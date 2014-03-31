@@ -77,7 +77,6 @@ def login(request):
       user = auth.authenticate(username=request.POST['username'],
                                password=request.POST['password'])
       if not user:
-        print 'Failed to login as username, trying an email'
         try:
           email_user = User.objects.get(
               email__exact=request.POST['username'])
@@ -93,7 +92,7 @@ def login(request):
           else:
             return HttpResponseRedirect(reverse('index'))
         else:
-          form.errors['username'] = 'This user is not active'
+          form.errors['username'] = 'This user is not active yet, please try later.'
       else:
         form.errors['username'] = (
             'username or email address not found and/or password wrong')
