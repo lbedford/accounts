@@ -114,6 +114,9 @@ def activate_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user.is_active = True
     user.save()
+    user.email_user("Account activated",
+                    "Your LBW account has been activated.\n"
+                    "Please visit %s to login." % request.build_absolute_uri(reverse('login')))
     return HttpResponseRedirect(reverse('activate_users'))
   else:
     return HttpResponseRedirect(reverse('index'))
