@@ -25,14 +25,14 @@ def register(request):
       user = form.save()
       user.is_active = False
       user.save()
-      message = """"A new user:
-%s
+      message = """A new user:
+%s %s
 has signed up. Please check
-%s
+http://%s%s
 and activate them as necessary.
 """
       mail_admins("New User registered",
-                  message % (user, reverse('activate_users')))
+                  message % (user.get_full_name(), user.email, request.get_host(), reverse('activate_users')))
       return redirect('index')
   else:
     form = UserCreateForm()
