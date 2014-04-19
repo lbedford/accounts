@@ -10,4 +10,4 @@ class LbwUser(models.Model):
       default='img/unknown.jpg')
 
   def __unicode__(self):
-    return self.user.__unicode__() # pylint: disable=E1101
+    return self.user.get_full_name()
