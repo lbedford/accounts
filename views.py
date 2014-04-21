@@ -25,6 +25,8 @@ def register(request):
       user = form.save()
       user.is_active = False
       user.save()
+      lbwuser = LbwUser(user=user)
+      lbwuser.save()
       message = """A new user:
 %s %s
 has signed up. Please check
@@ -49,7 +51,7 @@ def profile(request):
       form.save()
       if 'profile_image' in request.FILES:
         try:
-          lbwuser = LbwUser.objects.get(user_id__exact=request.user.id)
+          lbwuser = request.user.lbwuser
           lbwuser.profile_image = request.FILES['profile_image']
           lbwuser.save()
         except LbwUser.DoesNotExist:
@@ -59,7 +61,7 @@ def profile(request):
       return redirect('index')
   else:
     try:
-      lbwuser = LbwUser.objects.get(user_id__exact=request.user.id)
+      lbwuser = request.user.lbwuser
     except LbwUser.DoesNotExist:
       lbwuser = LbwUser(user=request.user)
       lbwuser.save()
@@ -114,6 +116,11 @@ def activate_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     user.is_active = True
     user.save()
+    try:
+      unused_lbwuser = user.lbwuser
+    except LbwUser.DoesNotExist:
+      lbwuser = LbwUser(user=user)
+      lbwuser.save()
     user.email_user("Account activated",
                     "Your LBW account has been activated.\n"
                     "Please visit %s to login." % request.build_absolute_uri(reverse('login')))

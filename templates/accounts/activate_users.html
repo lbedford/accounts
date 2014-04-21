@@ -5,7 +5,9 @@
   {% for user in users %}
     <li>
     <a href='{% url 'activate_user' user.id %}'>{{ user.get_full_name }}</a>: {{ user.email }}</a>
-    <img src='{{ user.lbwuser.profile_image.url }}'/>
+    {% if user.lbwuser %}
+      <img src='{{ user.lbwuser.profile_image.url }}'/>
+    {% endif %}
     </li>
   {% endfor %}
 </ul>
