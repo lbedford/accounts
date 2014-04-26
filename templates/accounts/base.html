@@ -9,12 +9,17 @@
     <title>LBW Accounts System</title>
 
     <link rel="shortcut icon" href="{% static 'registration/wandertux.ico' %}"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'registration/bootstrap.min.css' %}">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="{% static 'registration/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'registration/reg.css' %}" type="text/css"/>
 </head>
 <body class='protected'>
 
-<div class='content'>
-    <div class='logo'>
+<div class='row'>
+    <div class='logo col-md-2'>
         <a href="{% url 'registration:index' %}">
             <img
                     src="{% static 'registration/hiking_tux-116x149.jpg' %}"
@@ -25,17 +30,12 @@
                     />
         </a>
     </div>
-    <div class='header'>
-        <h1>Welcome to the LBW account management system system</h1>
-        {% include 'accounts/navbar.html' %}
-    </div>
-    <div class="body">
+    {% include 'accounts/navbar.html' %}
+    <div class="body col-md-10">
         {% block body %}
             Someone messed everything up here!
         {% endblock %}
     </div>
-
-
     {# include 'footer.html' #}
 </div>
 </body>
