@@ -3,7 +3,7 @@
 {% block body %}
 
 If you don't already have a username and password, you should 
-<a href="{% url 'register' %}">create an account</a> first.<br/>
+<a href="{% url 'signup' %}">create an account</a> first.<br/>
 If you've forgotten your password, you can <a href="{% url 'django.contrib.auth.views.password_reset' %}">reset it</a>, and it will be sent to your registered email address.
 
 <form method="post" action="{% url 'login' %}">

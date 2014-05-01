@@ -19,8 +19,8 @@ def index(request):
   """Index view."""
   return render(request, 'accounts/index.html')
 
-def register(request):
-  """Register user view. Render a blank form, or validate a post."""
+def signup(request):
+  """Signup user view. Render a blank form, or validate a post."""
   if request.method == 'POST':
     form = UserCreateForm(request.POST)
     if form.is_valid():
@@ -35,7 +35,7 @@ has signed up. Please check
 http://%s%s
 and activate them as necessary.
 """
-      mail_admins("New User registered",
+      mail_admins("New User signed up",
                   message % (user.get_full_name(), user.email, request.get_host(), reverse('activate_users')))
       return redirect('index')
   else:
