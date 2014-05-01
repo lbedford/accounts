@@ -1,5 +1,7 @@
 """Views for the accounts application."""
 
+import urllib
+
 from accounts.forms import UserCreateForm
 from accounts.forms import UserUpdateForm
 from accounts.forms import LoginForm
@@ -100,7 +102,9 @@ def login(request):
             'username or email address not found and/or password wrong')
   else:
     form = LoginForm()
-  return render(request, 'accounts/login.html', {'login_form': form})
+    next_url = urllib.unquote_plus(request.GET.get('next', '')).decode('utf8')
+  return render(request, 'accounts/login.html', {'login_form': form,
+                                                 'next': next_url})
 
 def activate_users(request):
   """Print a list of users who need to be activated."""

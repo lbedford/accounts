@@ -25,6 +25,9 @@ If you've forgotten your password, you can <a href="{% url 'django.contrib.auth.
 </tr>
 </table>
 
+{% if next %}
+<input type="hidden" name="next" value="{{ next }}">
+{% endif %}
 <input type="submit" value="login" />
 </form>
 
