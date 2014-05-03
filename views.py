@@ -75,6 +75,7 @@ def login(request):
   """Login. Looks up by username or email address."""
   if request.user.is_authenticated():
     return HttpResponseRedirect(reverse('index'))
+  next_url = None
   if request.method == 'POST':
     form = LoginForm(request.POST)
     if form.is_valid():
