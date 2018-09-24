@@ -1,10 +1,10 @@
 """Models for accounts."""
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 
 class LbwUser(models.Model):
   """A model to attach a photo to a user."""
-  user = models.OneToOneField(User, primary_key=True,
+  user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True,
                               on_delete=models.CASCADE)
   profile_image = models.ImageField(
       upload_to='img/',
