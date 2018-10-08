@@ -7,13 +7,12 @@ from django.test import TestCase
 from .models import LbwUser
 
 class LbwUserPropertyTests(TestCase):
-    user = None
-
     def setUp(self):
-        user = get_user_model()()
-        user.save()
-        first_name = "My"
-        last_name = "Name"
+        self.user = get_user_model()()
+        self.user.first_name = "My"
+        self.user.last_name = "Name"
+        self.user.save()
+
 
     def test_cannot_create_lbwuser_without_user(self):
         lbwUser = LbwUser()
@@ -29,6 +28,11 @@ class LbwUserPropertyTests(TestCase):
         #lbwUser = LbwUser(user, profile_image='/path/to/image')
         #lbwUser.save()
         #self.assertIs(True, True)
+
+    def test_unicode(self):
+        lbwuser = LbwUser(user=self.user)
+        lbwuser.save()
+        self.assertEqual('My Name', lbwuser.__unicode__())
 
 class LbwUserMethodTests(TestCase):
 
