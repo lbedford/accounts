@@ -103,7 +103,7 @@ def login(request):
             'username or email address not found and/or password wrong')
   else:
     form = LoginForm()
-    next_url = urllib.parse.unquote_plus(request.GET.get('next', '')).decode('utf8')
+    next_url = urllib.parse.unquote_plus(request.GET.get('next', ''))
   return render(request, 'accounts/login.html', {'login_form': form,
                                                  'next': next_url})
 
