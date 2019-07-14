@@ -1,6 +1,6 @@
 """Views for the accounts application."""
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from accounts.forms import UserCreateForm
 from accounts.forms import UserUpdateForm
@@ -103,7 +103,7 @@ def login(request):
             'username or email address not found and/or password wrong')
   else:
     form = LoginForm()
-    next_url = urllib.unquote_plus(request.GET.get('next', '')).decode('utf8')
+    next_url = urllib.parse.unquote_plus(request.GET.get('next', '')).decode('utf8')
   return render(request, 'accounts/login.html', {'login_form': form,
                                                  'next': next_url})
 
