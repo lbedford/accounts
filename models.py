@@ -12,3 +12,6 @@ class LbwUser(models.Model):
 
   def __unicode__(self):
     return self.user.get_full_name()
+
+  def __str__(self):
+    return self.user.get_full_name()
