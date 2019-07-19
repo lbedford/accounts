@@ -9,7 +9,7 @@ from accounts.models import LbwUser
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -45,7 +45,7 @@ and activate them as necessary.
 
 def profile(request):
   """Show user profile, allow them to update it."""
-  if not request.user.is_authenticated():
+  if not request.user.is_authenticated:
     return HttpResponseRedirect(reverse('index'))
   if request.method == 'POST':
     form = UserUpdateForm(request.POST or None, instance=request.user)
@@ -73,7 +73,7 @@ def profile(request):
 
 def login(request):
   """Login. Looks up by username or email address."""
-  if request.user.is_authenticated():
+  if request.user.is_authenticated:
     return HttpResponseRedirect(reverse('index'))
   next_url = None
   if request.method == 'POST':
