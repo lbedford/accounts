@@ -9,10 +9,7 @@
 <form method="post" action="{% url 'signup' %}">
 {% csrf_token %}
 <table>
-<tr>
-<th>x</th>
-<th>y</th>
-</tr>
+
 {{ form.as_table }}
 
 <tr>
